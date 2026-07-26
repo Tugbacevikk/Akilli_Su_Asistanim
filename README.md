@@ -5,7 +5,7 @@ kullanıcı arayüzünün mobil öncelikli (mobile-first) statik prototipidir.
 Bursa'daki baraj doluluk durumu, hava koşulları ve kişisel su kullanımını
 tek bir panelde bir araya getirir.
 
-## Mevcut Durum (Önemli — Dürüst Özet)
+## Mevcut Durum (Önemli)
 
 Bu proje bir **arayüz (UI) prototipidir**, uçtan uca çalışan bir sistem değildir:
 
