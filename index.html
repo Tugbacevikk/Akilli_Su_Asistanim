@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Akıllı Su Asistanım - Günlük Su Takibi</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation (Desktop) -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-droplet"></i>
+                </div>
+                <div class="brand-text">
+                    <h2>Su Asistanım</h2>
+                    <span>Bursa Su Takibi</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#dashboard" class="nav-item active" data-tab="dashboard">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Ana Sayfa</span>
+                </a>
+                <a href="#consumption" class="nav-item" data-tab="consumption">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span>Su Girişi Ekle</span>
+                </a>
+                <a href="#dams-weather" class="nav-item" data-tab="dams-weather">
+                    <i class="fa-solid fa-water-ladder"></i>
+                    <span>Barajlar & Hava</span>
+                </a>
+                <a href="#forecast" class="nav-item" data-tab="forecast">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Gelecek Tahmini</span>
+                </a>
+                <a href="#tips" class="nav-item" data-tab="tips">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>Tasarruf İpuçları</span>
+                </a>
+                <a href="#bill-report" class="nav-item" data-tab="bill-report">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Fatura & Rapor</span>
+                </a>
+            </nav>
+
+            <div class="project-badge">
+                <div class="badge-title">TÜBİTAK 2209-A</div>
+                <p>Bursa Teknik Üniversitesi</p>
+                <small>Tuğba Çevik Projesi</small>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Bar Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="user-greeting-inline">
+                        <img src="https://ui-avatars.com/api/?name=Tugba+Cevik&background=0D6EFD&color=fff" alt="Tuğba" class="avatar-sm">
+                        <div>
+                            <span class="greeting-sub">Selam Tuğba 👋</span>
+                            <span class="greeting-main">Bugün 96 L Harcadın</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="location-badge">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Bursa</span>
+                    </div>
+                    <button id="theme-toggle" class="theme-btn" title="Tema Değiştir">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dynamic Tab Contents -->
+            <div class="content-body">
+                
+                <!-- TAB 1: ANA SAYFA -->
+                <section id="dashboard" class="tab-page active">
+                    <!-- Daily Summary Card -->
+                    <div class="daily-hero-card">
+                        <div class="hero-main-info">
+                            <span class="hero-tag">BUGÜNKÜ SU DURUMUN</span>
+                            <div class="hero-big-val">96 <small>Litre</small></div>
+                            <p class="hero-target-text"><i class="fa-solid fa-bullseye text-cyan"></i> Günlük Hedef: <strong>100 Litre</strong> (Hedefin Altındasın 🎉)</p>
+                        </div>
+                        <button class="btn btn-primary btn-mobile-hero" onclick="openLogModal()">
+                            <i class="fa-solid fa-plus"></i> Kullanım Ekle
+                        </button>
+                    </div>
+
+                    <!-- Quick Status Widgets Grid -->
+                    <div class="stats-grid">
+                        <!-- Baraj Doluluk Card -->
+                        <div class="stat-card glass-card">
+                            <div class="card-header">
+                                <span class="card-title">BURSA BARAJ DOLULUĞU</span>
+                                <div class="card-icon blue"><i class="fa-solid fa-water"></i></div>
+                            </div>
+                            <div class="card-main">
+                                <div class="big-number">%68</div>
+                                <div class="stat-subtitle">Doğancı (%72) • Nilüfer (%64)</div>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 68%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Weather Card -->
+                        <div class="stat-card glass-card">
+                            <div class="card-header">
+                                <span class="card-title">METEOROLOJİ</span>
+                                <div class="card-icon amber"><i class="fa-solid fa-sun"></i></div>
+                            </div>
+                            <div class="card-main">
+                                <div class="big-number">32°C</div>
+                                <div class="stat-subtitle">Sıcak Güneşli • Yağış Yok</div>
+                            </div>
+                            <div class="card-footer-tip">
+                                <i class="fa-solid fa-leaf text-success"></i> Sıcak havada duş süreni 8 dk tutarak su koruyabilirsin.
+                            </div>
+                        </div>
+
+                        <!-- Shower Tracker Card -->
+                        <div class="stat-card glass-card">
+                            <div class="card-header">
+                                <span class="card-title">DUŞ SÜREN</span>
+                                <div class="card-icon cyan"><i class="fa-solid fa-shower"></i></div>
+                            </div>
+                            <div class="card-main">
+                                <div class="big-number">12 <small>dakika</small></div>
+                                <div class="stat-subtitle">Duşta harcanan: ~96 Litre</div>
+                            </div>
+                            <div class="stat-badge warning">
+                                <i class="fa-solid fa-clock"></i> 4 dk kısaltırsan 32 L tasarruf
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts & Recommendations -->
+                    <div class="grid-2-col">
+                        <div class="card glass-card">
+                            <div class="card-header-flex">
+                                <h3><i class="fa-solid fa-chart-column text-primary"></i> Haftalık Su Tüketimin</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="dashboardConsumptionChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="card glass-card">
+                            <div class="card-header-flex">
+                                <h3><i class="fa-solid fa-leaf text-success"></i> Günün Tasarruf İpuçları</h3>
+                            </div>
+                            <div class="recommendations-list" id="dashboard-ai-suggestions"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: SU GİRİŞİ EKLE -->
+                <section id="consumption" class="tab-page">
+                    <div class="page-title-box">
+                        <h2><i class="fa-solid fa-faucet-drip text-primary"></i> Günlük Su Kullanımı Ekle</h2>
+                        <p>Bugün evde ne kadar su harcadığını adım adım gir.</p>
+                    </div>
+
+                    <div class="grid-2-col">
+                        <!-- Easy Touch Form -->
+                        <div class="card glass-card">
+                            <h3><i class="fa-solid fa-pen-to-square"></i> Tüketim Hesapla & Kaydet</h3>
+                            <form id="water-log-form" onsubmit="handleWaterLogSubmit(event)">
+                                <div class="form-group">
+                                    <label for="log-date">Tarih</label>
+                                    <input type="date" id="log-date" class="form-control" required>
+                                </div>
+
+                                <!-- Stepper Control: Shower -->
+                                <div class="stepper-item">
+                                    <div class="stepper-info">
+                                        <i class="fa-solid fa-shower text-cyan"></i>
+                                        <div>
+                                            <strong>Duş Süresi</strong>
+                                            <small>~8 Litre/dakika</small>
+                                        </div>
+                                    </div>
+                                    <div class="stepper-ctrl">
+                                        <button type="button" class="step-btn" onclick="adjustValue('shower-mins', -1)">-</button>
+                                        <input type="number" id="shower-mins" class="step-input" value="12" min="0" oninput="calculateInstantLitres()">
+                                        <button type="button" class="step-btn" onclick="adjustValue('shower-mins', 1)">+</button>
+                                        <span class="unit">dk</span>
+                                    </div>
+                                </div>
+
+                                <!-- Stepper Control: Faucet -->
+                                <div class="stepper-item">
+                                    <div class="stepper-info">
+                                        <i class="fa-solid fa-faucet text-primary"></i>
+                                        <div>
+                                            <strong>Musluk Açık Kalma</strong>
+                                            <small>~6 Litre/dakika</small>
+                                        </div>
+                                    </div>
+                                    <div class="stepper-ctrl">
+                                        <button type="button" class="step-btn" onclick="adjustValue('faucet-mins', -1)">-</button>
+                                        <input type="number" id="faucet-mins" class="step-input" value="5" min="0" oninput="calculateInstantLitres()">
+                                        <button type="button" class="step-btn" onclick="adjustValue('faucet-mins', 1)">+</button>
+                                        <span class="unit">dk</span>
+                                    </div>
+                                </div>
+
+                                <!-- Stepper Control: Flush -->
+                                <div class="stepper-item">
+                                    <div class="stepper-info">
+                                        <i class="fa-solid fa-toilet text-amber"></i>
+                                        <div>
+                                            <strong>Sifon Kullanımı</strong>
+                                            <small>~6 Litre/basım</small>
+                                        </div>
+                                    </div>
+                                    <div class="stepper-ctrl">
+                                        <button type="button" class="step-btn" onclick="adjustValue('flush-count', -1)">-</button>
+                                        <input type="number" id="flush-count" class="step-input" value="4" min="0" oninput="calculateInstantLitres()">
+                                        <button type="button" class="step-btn" onclick="adjustValue('flush-count', 1)">+</button>
+                                        <span class="unit">adet</span>
+                                    </div>
+                                </div>
+
+                                <!-- Stepper Control: Appliances -->
+                                <div class="stepper-item">
+                                    <div class="stepper-info">
+                                        <i class="fa-solid fa-soap text-indigo"></i>
+                                        <div>
+                                            <strong>Bulaşık / Çamaşır</strong>
+                                            <small>~15 Litre/yıkama</small>
+                                        </div>
+                                    </div>
+                                    <div class="stepper-ctrl">
+                                        <button type="button" class="step-btn" onclick="adjustValue('appliance-runs', -1)">-</button>
+                                        <input type="number" id="appliance-runs" class="step-input" value="1" min="0" oninput="calculateInstantLitres()">
+                                        <button type="button" class="step-btn" onclick="adjustValue('appliance-runs', 1)">+</button>
+                                        <span class="unit">yıkama</span>
+                                    </div>
+                                </div>
+
+                                <div class="instant-calc-box margin-top">
+                                    <div class="calc-label">Toplam Tüketilen Su:</div>
+                                    <div class="calc-value"><span id="calculated-total-litres">145</span> Litre</div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <i class="fa-solid fa-check"></i> Bugüne Kaydet
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Recent Logs List -->
+                        <div class="card glass-card">
+                            <div class="card-header-flex">
+                                <h3><i class="fa-solid fa-clock-rotate-left"></i> Son Kayıtların</h3>
+                                <button class="btn btn-sm btn-outline" onclick="clearLogs()">Temizle</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tarih</th>
+                                            <th>Duş</th>
+                                            <th>Toplam</th>
+                                            <th>Durum</th>
+                                            <th>Sil</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="logs-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: BARAJLARI & HAVA DURUMU -->
+                <section id="dams-weather" class="tab-page">
+                    <div class="page-title-box">
+                        <h2><i class="fa-solid fa-water-ladder text-primary"></i> Bursa Baraj Seviyeleri</h2>
+                        <p>Bursa'ya su sağlayan barajların doluluk durumu ve günlük hava tahmini.</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card glass-card">
+                            <div class="stat-title">Doğancı Barajı</div>
+                            <div class="big-number text-primary">%72</div>
+                            <p class="text-muted">Kapasite: 43 Milyon m³</p>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-title">Nilüfer Barajı</div>
+                            <div class="big-number text-cyan">%64</div>
+                            <p class="text-muted">Kapasite: 60 Milyon m³</p>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-title">Çınarcık Barajı</div>
+                            <div class="big-number text-indigo">%58</div>
+                            <p class="text-muted">Kapasite: 145 Milyon m³</p>
+                        </div>
+                    </div>
+
+                    <div class="card glass-card margin-top">
+                        <h3><i class="fa-solid fa-chart-line"></i> Baraj Doluluk Değişimi</h3>
+                        <div class="chart-container large">
+                            <canvas id="historicalDamChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 4: GELECEK TAHMİNİ (PRACTICAL PREDICTION) -->
+                <section id="forecast" class="tab-page">
+                    <div class="page-title-box">
+                        <h2><i class="fa-solid fa-chart-line text-cyan"></i> Gelecek Günlük Su Tahmini</h2>
+                        <p>Hava sıcaklığı ve kullanım alışkanlıklarına göre yarın ne kadar suya ihtiyacın olacağını gör.</p>
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="card glass-card">
+                            <h3><i class="fa-solid fa-sliders"></i> Tahmin Ayarları</h3>
+                            <p class="text-muted">Beklenen hava durumuna göre harcama tahminini incele:</p>
+                            
+                            <div class="form-group margin-top">
+                                <label>Hava Sıcaklığı: <strong id="val-temp">32°C</strong></label>
+                                <input type="range" id="param-temp" min="5" max="42" value="32" oninput="updateMLPrediction()">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nem Oranı: <strong id="val-humidity">%45</strong></label>
+                                <input type="range" id="param-humidity" min="10" max="95" value="45" oninput="updateMLPrediction()">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Baraj Doluluğu: <strong id="val-dam">%68</strong></label>
+                                <input type="range" id="param-dam" min="10" max="100" value="68" oninput="updateMLPrediction()">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Önceki Gün Tüketimin: <strong id="val-prev">145 L</strong></label>
+                                <input type="range" id="param-prev" min="50" max="300" value="145" oninput="updateMLPrediction()">
+                            </div>
+                        </div>
+
+                        <div class="card glass-card text-center">
+                            <h3>Tahmin Edilen Su İhtiyacı</h3>
+                            
+                            <div class="ml-result-box margin-top">
+                                <div class="prediction-value" id="ml-predicted-output">148 Litre</div>
+                                <div class="prediction-sub">Yarınki Beklenen Kişi Başı Tüketim</div>
+                            </div>
+
+                            <div class="card-footer-tip margin-top text-left">
+                                <i class="fa-solid fa-circle-info text-primary"></i> Bu tahmin, geçmiş günlük kullanımın ve Bursa meteoroloji sıcaklık verileri dikkate alınarak hesaplanmaktadır.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: TASARRUF İPUÇLARI -->
+                <section id="tips" class="tab-page">
+                    <div class="page-title-box">
+                        <h2><i class="fa-solid fa-lightbulb text-amber"></i> Pratik Ev İçi Tasarruf İpuçları</h2>
+                        <p>Günlük yaşamda kolayca uygulayabileceğin su koruma tavsiyeleri.</p>
+                    </div>
+
+                    <div class="recommendations-container" id="full-recommendations-list"></div>
+                </section>
+
+                <!-- TAB 6: FATURA & RAPOR -->
+                <section id="bill-report" class="tab-page">
+                    <div class="page-title-box">
+                        <h2><i class="fa-solid fa-receipt text-success"></i> Su Faturası & Aylık Rapor</h2>
+                        <p>Aylık harcadığın su miktarını ve tahmini faturanı görüntüle.</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card glass-card">
+                            <div class="stat-title">AYLIK TOPLAM SU</div>
+                            <div class="big-number text-primary">2.88 m³</div>
+                            <p class="text-muted">2.880 Litre Harcandı</p>
+                        </div>
+
+                        <div class="stat-card glass-card">
+                            <div class="stat-title">TAHMİNİ SU FATURASI</div>
+                            <div class="big-number text-success">~145 ₺</div>
+                            <p class="text-muted">Bursa BUSKİ Ortalama Tarifesi</p>
+                        </div>
+                    </div>
+
+                    <div class="grid-2-col margin-top">
+                        <div class="card glass-card text-center">
+                            <i class="fa-solid fa-file-csv text-primary" style="font-size: 2.5rem;"></i>
+                            <h3 class="margin-top">Kayıtları Excel/CSV İndir</h3>
+                            <button class="btn btn-primary margin-top" onclick="exportLogsCSV()">
+                                <i class="fa-solid fa-download"></i> CSV Olarak İndir
+                            </button>
+                        </div>
+
+                        <div class="card glass-card text-center">
+                            <i class="fa-solid fa-print text-amber" style="font-size: 2.5rem;"></i>
+                            <h3 class="margin-top">Özet Raporu Yazdır</h3>
+                            <button class="btn btn-outline margin-top" onclick="window.print()">
+                                <i class="fa-solid fa-print"></i> Sayfayı Yazdır / PDF
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+        <!-- Mobile Bottom Navigation Bar (Mobile-First UI) -->
+        <nav class="mobile-bottom-nav">
+            <a href="#dashboard" class="mobile-nav-item active" data-tab="dashboard">
+                <i class="fa-solid fa-house"></i>
+                <span>Ana Sayfa</span>
+            </a>
+            <a href="#consumption" class="mobile-nav-item" data-tab="consumption">
+                <i class="fa-solid fa-plus-circle"></i>
+                <span>Ekle</span>
+            </a>
+            <a href="#dams-weather" class="mobile-nav-item" data-tab="dams-weather">
+                <i class="fa-solid fa-water-ladder"></i>
+                <span>Barajlar</span>
+            </a>
+            <a href="#tips" class="mobile-nav-item" data-tab="tips">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>İpuçları</span>
+            </a>
+            <a href="#bill-report" class="mobile-nav-item" data-tab="bill-report">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Rapor</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Quick Entry Modal -->
+    <div id="logModal" class="modal">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-plus-circle"></i> Hızlı Kullanım Ekle</h3>
+                <span class="close-modal" onclick="closeLogModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Duş Süresi (Dakika)</label>
+                    <input type="number" id="modal-shower" class="form-control" value="10">
+                </div>
+                <div class="form-group">
+                    <label>Tahmini Harcanan Su (Litre)</label>
+                    <input type="number" id="modal-litres" class="form-control" value="90">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeLogModal()">İptal</button>
+                <button class="btn btn-primary" onclick="saveModalLog()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="charts.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "akilli-su-asistanim-prototip",
+  "version": "1.0.0",
+  "description": "TÜBİTAK 2209-A Akıllı Su Asistanım Web Prototipi",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "tubitak-2209a",
+    "su-tasarrufu",
+    "bursa",
+    "web-app",
+    "ai",
+    "machine-learning"
+  ],
+  "author": "Tuğba Çevik - Bursa Teknik Üniversitesi",
+  "license": "MIT"
+}
